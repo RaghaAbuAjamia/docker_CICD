@@ -23,7 +23,7 @@ jobs:
 
     - name: Deploy with Docker
       run: |
-        ssh -i ~/.ssh/id_rsa  root@168.119.254.41<< 'EOF'      
+        ssh -o StrictHostKeyChecking=no root@168.119.254.41<< 'EOF'      
         cd raghad
 
         docker pull nginx:latest
