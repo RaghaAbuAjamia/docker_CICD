@@ -10,23 +10,29 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
     - name: Setup SSH
-      uses: appleboy/scp-action@v0.1.7
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        port: 22
-        
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
     - name: Deploy with Docker
       run: |
        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
         echo "Connection successful!"
-           cd raghad
+        [ -d raghad ] || mkdir raghad
+        cd raghad
         echo "I am in the raghad dir!"
-
-        docker pull nginx
-        echo "after pulling the image!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         
+        docker --version || { echo "Docker is not installed!"; exit 1; }
+        
+        docker pull nginx || { echo "Docker pull failed!"; exit 1; }
+        echo "Docker image pulled successfully."
+        
+        docker run -d -p 80:80 nginx || { echo "Docker run failed!"; exit 1; }
+        echo "Docker container started successfully!"
         EOF
