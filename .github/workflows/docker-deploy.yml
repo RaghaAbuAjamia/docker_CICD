@@ -26,11 +26,10 @@ jobs:
        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
         echo "Connection successful!"
            cd raghad
+        echo "I am in the raghad dir!"
 
-        docker pull nginx:latest
-
-        docker stop nginx_container || true
-        docker rm nginx_container || true
-
-        docker run -d --name nginx_container -p 80:80 nginx:latest
+        docker pull nginx
+        echo "after pulling the image!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        
+        docker run -d  -p 80:80 nginx
         EOF
