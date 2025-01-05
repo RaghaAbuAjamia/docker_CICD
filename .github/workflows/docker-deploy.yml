@@ -18,7 +18,7 @@ jobs:
 
     - name: Deploy with Docker
       run: |
-       ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+        ssh -T -o StrictHostKeyChecking=no${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
         echo "Connection successful!"
         [ -d raghad ] || mkdir raghad
         cd raghad
