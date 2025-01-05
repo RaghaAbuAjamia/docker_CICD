@@ -31,5 +31,4 @@ jobs:
         docker pull nginx
         echo "after pulling the image!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
         
-        docker run -d  -p 80:80 nginx
         EOF
