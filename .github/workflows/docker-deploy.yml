@@ -1,0 +1,32 @@
+name: Docker CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup SSH
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        ssh-private-key: ${{ secrets.MY_KEY }}
+        port: 22
+
+    - name: Deploy with Docker
+      run: |
+        ssh -T -o StrictHostKeyChecking=no root@168.119.254.41<< 'EOF'        cd raghad
+        cd docker_CICD || exit
+        docker pull nginx:latest
+
+        docker stop nginx_container || true
+        docker rm nginx_container || true
+
+        docker run -d --name nginx_container -p 80:80 nginx:latest
+        EOF
