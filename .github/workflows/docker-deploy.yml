@@ -24,8 +24,9 @@ jobs:
         
     - name: Deploy with Docker
       run: |
-        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}<< 'EOF'      
-        cd raghad
+       ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
+        echo "Connection successful!"
+           cd raghad
 
         docker pull nginx:latest
 
