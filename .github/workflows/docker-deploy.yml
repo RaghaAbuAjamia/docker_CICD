@@ -28,6 +28,9 @@ jobs:
         
         docker pull nginx || { echo "Docker pull failed!"; exit 1; }
         echo "Docker image pulled successfully."
+
+        
+        docker run -d -p 80:80 --name my_nginx_container nginx || { echo "Docker run failed!"; exit 1; }
         
         echo "Docker container started successfully!"
         EOF
