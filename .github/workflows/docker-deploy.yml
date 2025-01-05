@@ -30,7 +30,6 @@ jobs:
         echo "Docker image pulled successfully."
 
         
-        docker run -d -p 8080:80 --name my_nginx_container nginx || { echo "Docker run failed!"; exit 1; }
-        
+        docker run -d -p 8083:80  nginx || { echo "Docker run failed!"; exit 1; }        
         echo "Docker container started successfully!"
         EOF
