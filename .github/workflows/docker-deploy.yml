@@ -23,7 +23,8 @@ jobs:
 
     - name: Deploy with Docker
       run: |
-        ssh -T -o StrictHostKeyChecking=no root@168.119.254.41<< 'EOF'        cd raghad
+        ssh -i ~/.ssh/id_rsa  root@168.119.254.41<< 'EOF'      
+        cd raghad
         cd docker_CICD || exit
         docker pull nginx:latest
 
